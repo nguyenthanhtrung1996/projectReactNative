@@ -5,13 +5,15 @@ import { FlatList } from 'react-native-gesture-handler';
 import ProductListItem from '../components/ProductListItem';
 import ValueContext from '../contexts/ValueContext';
 
+import { stylesCategory } from './controller/style'
+
 export default function Category(props) {
   const [ cartItems, handleDecrese, handleIncrese ] = useContext(ValueContext);
   return (
     <FlatList 
       data={cartItems}
       renderItem={({item}) => 
-        <View style={styles.wrapper}>
+        <View style={stylesCategory.wrapper}>
           <ProductListItem cartItems={item} handleBuy={handleIncrese} />
         </View>
       }
@@ -23,20 +25,3 @@ export default function Category(props) {
   );
   
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    paddingLeft: 16,
-    paddingRight: 16
-  },
-  wrapper: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 8,
-    paddingTop: 16
-  }
-});

@@ -1,21 +1,22 @@
 
-import React, {  useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-// import CategoryListItem from '../components/CategoryListItem'
+import CategoryListItem from '../components/CategoryListItem';
+import { stylesCategories } from './controller/style';
 
-import CategoryListItem from '../components/CategoryListItem'
+
 
 export default function Categories({ navigation }) {
   const [ categories, setCategories ] = useState([{ id:1, name:'Dụng cụ xây dựng'}]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#FFF'}}>
+    <View style={stylesCategories.container}>
       <FlatList 
         data={categories}
         numColumns={3}
         renderItem={({item}) => 
-          <View style={styles.wrapper}>
+          <View style={stylesCategories.wrapper}>
               <CategoryListItem category={item}
               onPress={() => navigation.navigate('Category',{
                 categoryName: item.name
@@ -23,24 +24,10 @@ export default function Categories({ navigation }) {
           </View>
         }
         keyExtractor={item => `${item.id}`}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={stylesCategories.contenContainer}
       />
-      
     </View>
   );
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: '#fff',
-    // justifyContent: 'center',
-    // paddingHorizontal: 8
-  },
-  wrapper: {
-    // flex: 1,
-    paddingHorizontal: 16
-  }
-});
