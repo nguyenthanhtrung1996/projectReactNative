@@ -33,6 +33,7 @@ export const stylesCartScreen = StyleSheet.create({
     },
     img: {
         flex: 1,
+        width: '100%',
         height: 150,
         borderRadius: 4
     },
@@ -97,7 +98,7 @@ export const stylesProductListItem = StyleSheet.create({
     },
     img: {
         width: '100%',
-        height: 200,
+        height: 250,
         borderRadius: 4
     },
     name: {

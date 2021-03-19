@@ -6,13 +6,13 @@ import { stylesCartScreen } from './controller/style';
 
 export default function CartScreen(props){
     const { cartItems, handlerDecrease, handleIncrese } = props;
-    console.log(cartItems);
+    console.log(cartItems.images);
     return(
         <View>
             {cartItems.quality > 0 && 
                 <View style={stylesCartScreen.shadow}>
                 <View style={stylesCartScreen.container}>
-                    <Image style={stylesCartScreen.img} source={{ url: cartItems.images}} />
+                    <Image style={stylesCartScreen.img} source={{ uri: cartItems.images}} />
                     <View style={stylesCartScreen.info}>
                         <Text style={stylesCartScreen.name}>{cartItems.name}</Text>
                         <View style={stylesCartScreen.priceRow}>

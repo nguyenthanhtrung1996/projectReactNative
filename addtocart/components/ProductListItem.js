@@ -7,7 +7,7 @@ export default function ProductListItem(props){
     return(
         <View style={stylesProductListItem.shadow}>
             <View style={stylesProductListItem.container}>
-                <Image style={stylesProductListItem.img} source={{ url: cartItems.images}} />
+                <Image style={stylesProductListItem.img} source={{ uri: cartItems.images}} />
                 <View style={stylesProductListItem.info}>
                     <Text style={stylesProductListItem.name}>{cartItems.name}</Text>
                     <View style={stylesProductListItem.priceRow}>

@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react';
 import ValueContext from './ValueContext';
 import axios from 'axios';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function ValueProvider(props){
     const [ cartItems, setCartItems ] = useState();
@@ -14,18 +15,54 @@ function ValueProvider(props){
           .catch( error => {
                   console.error(error);
                 })
+        getStorage();
     }, []);
 
-    const updateData = async (index, data) => {
-        console.log(data);
-        await axios.put(`https://602c78c930ba720017223021.mockapi.io/api/v1/product/${index}`, data)
-        .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-    }
+    const getStorage =  async () => {
+            try {
+                const jsonValue = await AsyncStorage.getItem('CartItems')
+                console.log(JSON.parse(jsonValue));
+                if(jsonValue !== null){
+                    setCartItems(JSON.parse(jsonValue))
+                }
+            } catch(error) {
+                console.log(error);
+            }
+            console.log('get....');
+    };
+        
+    
+
+    const setAsyncStorage = async(item) => {
+            try {
+              await AsyncStorage.setItem(
+                'CartItems',
+                JSON.stringify(item),
+                () => {
+                    AsyncStorage.mergeItem(
+                    'CartItems',
+                    JSON.stringify(cartItems),
+                    );
+                }
+              );
+            } catch (error) {
+            }
+    };
+        
+    
+
+
+
+    // const updateData = async (index, data) => {
+    //     console.log(data);
+    //     await axios.put(`https://602c78c930ba720017223021.mockapi.io/api/v1/product/${index}`, data)
+    //     .then(function (response) {
+    //         console.log(response);
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       });
+    // }
     
     
     function handlerDecrease(item){
@@ -33,6 +70,7 @@ function ValueProvider(props){
         const newCartItem = [...cartItems];
         --newCartItem[index].quality;
         setCartItems(newCartItem);
+        setAsyncStorage(newCartItem);
     }
 
     function handleIncrese(item){
@@ -40,8 +78,10 @@ function ValueProvider(props){
         const newCartItem = [...cartItems];
         ++newCartItem[index].quality;
         setCartItems(newCartItem);
+        setAsyncStorage(newCartItem);
         Alert.alert('Thành Công', 'Thêm 1 sản phẩm');
-        updateData(index+1, newCartItem[index]);
+        // updateData(index+1, newCartItem[index]);
+        
     }
   
     return (
