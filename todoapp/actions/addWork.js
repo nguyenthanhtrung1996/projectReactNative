@@ -43,11 +43,11 @@ export const completeWork = (Work) => {
     }
 }
 
-export const allCompleteWork = () => {
-    return {
-        type: 'ALL_COMPLETE_WORK',
-    }
-}
+// export const allCompleteWork = () => {
+//     return {
+//         type: 'ALL_COMPLETE_WORK',
+//     }
+// }
 
 export const setState = (items) => {
     console.log(items);
@@ -85,17 +85,11 @@ export const putToDo = (index, data) => async (dispatch) => {
     });
 }
 
-export const deleteToDo = (array) => async (dispatch) => {
-    const newList = array.filter(element => {
-        return element.isComplete == false;
-    });
-    console.log(newList);
-    axios.all()
-    
-    await axios.patch(`https://60508dbf5346090017670030.mockapi.io/api/v1/Item/`, { ...newList })
-    .then(res => 
-        // dispatch(setActiveWork(res.data)))
-        console.log(res.data))
+export const deleteToDo = (id) => async (dispatch) => {
+    await axios.delete(`https://60508dbf5346090017670030.mockapi.io/api/v1/Item/${id}`,)
+    .then(res => {
+        dispatch(deleteWork(id));
+        console.log(res.data)})
     .catch(error => {
         console.log(error)
     });

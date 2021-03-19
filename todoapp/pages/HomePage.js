@@ -3,16 +3,9 @@ import { Alert, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     activeWork,
-    addNewWork,
-    allCompleteWork,
     allWork, completeWork,
-    deleteWork,
-    fetchToDo,
-    putToDo,
-    postToDo,
-    deleteToDo,
-    setActiveWork,
-
+    deleteToDo, fetchToDo,
+    postToDo, putToDo
 } from '../actions/addWork';
 import ToDoScreen from '../components/ToDoScreen';
 import { stylesHomePage } from './controller/style';
@@ -49,7 +42,7 @@ function HomePage(){
             return;
         } else {
             const newItem = {
-                id: toDoList[toDoList.length-1].id+1,
+                id:  toDoList[toDoList.length-1] ? parseInt(toDoList[toDoList.length-1].id)+1 : 1,
                 work: item,
                 isComplete: false
             }
@@ -69,15 +62,21 @@ function HomePage(){
             const action = completeWork(filterName);
             dispatch(action);
         } else if ( filterName == 'Clear Completed') {
-            // const action = deleteWork('DELETE_WORK');
-            dispatch(deleteToDo(toDoList));
+            for (const items in toDoList) {
+                if(toDoList[items].isComplete == true) {
+                    dispatch(deleteToDo(toDoList[items].id));
+                }
+            }
         }
         
     }
 
     function handlerAllCompleted(){
-        const action = allCompleteWork('ALL_COMPLETE_WORK');
-        dispatch(action);
+        for (const items in toDoList) {
+            if(toDoList[items].isComplete == false) {
+                dispatch(putToDo(toDoList[items].id,toDoList[items]));
+            }
+        }
     }
 
     function handlerChangeActive(item){
