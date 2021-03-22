@@ -83,6 +83,8 @@ function ValueProvider(props){
         // updateData(index+1, newCartItem[index]);
         
     }
+
+    
   
     return (
         <ValueContext.Provider value={[ cartItems, handlerDecrease, handleIncrese ]}>

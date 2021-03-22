@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Button, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { stylesToDoScreen } from './controller/style';
 
 
 function ToDoScreen(props){
-    const { toDoList, handlerSubmitInput, handlerOnFilterItem, handlerOnChangActive,handlerAllCompleted } = props;
+    const { toDoList, handlerSubmitInput, handlerOnFilterItem, handlerOnChangActive,handlerAllCompleted, changeFlex } = props;
     const [ term, setTerm ] = useState();
     const [ focus, setFocus ]= useState(false);
-    
     return (
         <View style={stylesToDoScreen.container}>
             <View style={stylesToDoScreen.formInput}>
@@ -26,18 +25,22 @@ function ToDoScreen(props){
                     onChangeText={(text) => setTerm(text)}
                     value={term}
                     placeholder='What Need To Be Done?'
-                    onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)}
+                    onFocus={() => {
+                        setFocus(true);
+                        changeFlex(true);
+                    }}
+                    onBlur={() => {
+                        setFocus(false);
+                        changeFlex(false);
+                    }}
                 />
-                <TouchableOpacity>
-                    <Button 
-                        style={stylesToDoScreen.button} 
-                        title={'Add'} 
-                        onPress={()=>{
-                            handlerSubmitInput(term);
-                            setTerm('');}}
-                        color='#74b9ff'
-                            />
+                <TouchableOpacity
+                style={stylesToDoScreen.button}
+                onPress={()=>{
+                    handlerSubmitInput(term);
+                    setTerm('');}}
+                >
+                    <Text style={stylesToDoScreen.buttonText}>ADD</Text>
                 </TouchableOpacity>
              </View>
             <View style = {{flex: 1,width: '100%'}}>
@@ -45,14 +48,14 @@ function ToDoScreen(props){
                 {toDoList.map(function(item){
                     if(item.isComplete == false){
                         return (
-                            <Text style={stylesToDoScreen.contentFalse}>
-                                <Icon name='checkmark-outline' size={24}  onPress={() => handlerOnChangActive(item)}/>
+                            <Text style={stylesToDoScreen.contentFalse}  onPress={() => handlerOnChangActive(item)}>
+                                <Icon name='checkmark-outline' size={24}/>
                                 {item.work}
                             </Text>
                     )} else if ( item.isComplete == true){
                         return(
-                            <Text style={stylesToDoScreen.contentTrue}>
-                                <Icon name='checkmark-outline' size={24}  onPress={() => handlerOnChangActive(item)}/>
+                            <Text style={stylesToDoScreen.contentTrue}  onPress={() => handlerOnChangActive(item)}>
+                                <Icon name='checkmark-outline' size={24}/>
                                 {item.work}
                             </Text>
                     )}
@@ -61,45 +64,39 @@ function ToDoScreen(props){
                 </ScrollView>
             </View>
             <View style={stylesToDoScreen.footer}>
-                <View style={stylesToDoScreen.leftFooter}>
-                    <Button 
-                        style={focus ? stylesToDoScreen.focusBtnFooter : stylesToDoScreen.btnFooter} 
-                        onPress={() => handlerOnFilterItem('All')} 
-                        onFocus={() => setFocus(true)}
-                        title={'All'} 
-                        color='#74b9ff'
-                    />
-                    {/* <Text 
-                        style={focus ? stylesToDoScreen.focusBtnFooter : stylesToDoScreen.btnFooter} 
-                        onPress={() => {
-                            handlerOnFilterItem('All');
+                
+                    <TouchableOpacity
+                    style={stylesToDoScreen.button}
+                    onPress={()=>{
+                        handlerOnFilterItem('All');
                         }}
-                        
-                        >
-                            All
-                    </Text> */}
-                    <Button
-                        style={stylesToDoScreen.btnFooter} 
-                        onPress={() => handlerOnFilterItem('Active')} 
-                        title={'Active'}
-                        color='#74b9ff'
-                    />
-                    <Button 
-                        style={stylesToDoScreen.btnFooter} 
-                        onPress={() => handlerOnFilterItem('Completed')} 
-                        title={'Completed'}
-                        color='#74b9ff'
-                    />
-                </View>
-                <View>
-                    <Button 
-                        onPress={() => handlerOnFilterItem('Clear Completed')} 
-                        title={'Clear Completed'} 
-                        color='#74b9ff'
                     >
-                    </Button>
-                    {/* <Text style={stylesToDoScreen.btnFooter} onPress={() => handlerOnFilterItem('Clear Completed')}>Clear Completed</Text> */}
-                </View>
+                        <Text style={stylesToDoScreen.buttonText}>ALL</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    style={stylesToDoScreen.button}
+                    onPress={()=>{
+                        handlerOnFilterItem('Active');
+                        }}
+                    >
+                        <Text style={stylesToDoScreen.buttonText}>ACTIVE</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    style={stylesToDoScreen.button}
+                    onPress={()=>{
+                        handlerOnFilterItem('Completed');
+                        }}
+                    >
+                        <Text style={stylesToDoScreen.buttonText}>COMPLETED</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={stylesToDoScreen.button}
+                        onPress={()=>{
+                            handlerOnFilterItem('Clear Completed');
+                            }}
+                        >
+                            <Text style={stylesToDoScreen.buttonText}>CLEAR COMPLETED</Text>
+                    </TouchableOpacity>
             </View>
         </View>
     )

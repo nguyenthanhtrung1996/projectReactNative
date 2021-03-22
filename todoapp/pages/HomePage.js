@@ -10,10 +10,12 @@ import {
 import ToDoScreen from '../components/ToDoScreen';
 import { stylesHomePage } from './controller/style';
 
-function HomePage(){
+function HomePage(props){
     const toDoList = useSelector(state => state.todo.list);
     const toDoToTal = useSelector(state => state.todo.arrayClone);
-    console.log(toDoList)
+
+    const { changeFlex } = props;
+
     const dispatch = useDispatch();
 
     useEffect(()=> {
@@ -41,6 +43,7 @@ function HomePage(){
         if(check(item) == true){
             return;
         } else {
+            item = item.replace(/\s+/g,' ').trim();
             const newItem = {
                 id:  toDoList[toDoList.length-1] ? parseInt(toDoList[toDoList.length-1].id)+1 : 1,
                 work: item,
@@ -90,6 +93,7 @@ function HomePage(){
                 handlerOnFilterItem={handlerOnFilterItem} 
                 handlerOnChangActive={handlerChangeActive}
                 handlerAllCompleted={handlerAllCompleted}
+                changeFlex={changeFlex}
             />
         </View>
     )

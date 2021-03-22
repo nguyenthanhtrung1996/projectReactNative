@@ -25,5 +25,8 @@ export const stylesApp = StyleSheet.create({
     },
     container2: {
       flex: 2,
+    },
+    displayNone: {
+      display: 'none'
     }
   })

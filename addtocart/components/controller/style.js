@@ -115,3 +115,10 @@ export const stylesProductListItem = StyleSheet.create({
         flex: 1
     }
 })
+
+export const stylesSettingScreen = StyleSheet.create({
+    button: {
+        backgroundColor: '#3498db',
+        padding: 10
+    }
+})

@@ -27,7 +27,7 @@ const addReducer = ( state = initialState, action ) => {
             };
         }
         case 'SET_ACTIVE_WORK': {
-            const newList = [...state.list];
+            const newList = [...state.arrayClone];
             const index = newList.findIndex( element => {
                 if (element.work === action.payload.work) {
                   return true;
@@ -60,6 +60,7 @@ const addReducer = ( state = initialState, action ) => {
             }
         }
         case 'ACTIVE_WORK': {
+            console.log(state.arrayClone);
             const stateTotal = [...state.arrayClone];
             const newList = stateTotal.filter(element => {
                 return element.isComplete == false;
@@ -70,6 +71,7 @@ const addReducer = ( state = initialState, action ) => {
             }
         }
         case 'COMPLETE_WORK': {
+            console.log(state.arrayClone);
             const stateTotal = [...state.arrayClone];
             const newList = stateTotal.filter(element => {
                 return element.isComplete == true;
