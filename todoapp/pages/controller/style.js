@@ -7,5 +7,12 @@ export const stylesHomePage = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     },
+    containerTitle: {
+      // flex: 1, 
+      justifyContent:'flex-end',
+    },
+    title: {
+      fontSize: 24
+    }
   });
   
