@@ -14,11 +14,11 @@ export const stylesToDoScreen = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         width: '100%',
-        backgroundColor: '#fff',
-        // paddingTop: 16
-        
+        backgroundColor: '#ecf0f1',
+        paddingHorizontal:20,
         paddingVertical: 5,
     },
+    
     input: {
         height: 40,
         borderColor: 'gray',
@@ -28,27 +28,63 @@ export const stylesToDoScreen = StyleSheet.create({
         height: 40,
         flex:1,
     },
+    buttonBox:{
+        flexDirection: 'row',
+        justifyContent:'space-around',
+        alignItems: 'center'
+    },
     button: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
+
     },
     buttonText: {
         color: 'white',
-        padding: 5,
-        borderRadius: 5,
-        backgroundColor: '#74b9ff',
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderRadius: 20,
+        
+
+        fontSize: 20,
+        backgroundColor: '#6c5ce7',
+    },
+    content:{
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        elevation: 10
+
+    },
+    contentFlex:{
+        flex: 1,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        elevation: 10
+    },
+    nothing:{
+        fontSize: 32,
+        opacity: 0.5
+    },
+    contentBox:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 3,
+        borderBottomColor: '#ecf0f1',
+        backgroundColor: 'white',
+        textAlign: 'center'
+    },
+    contentBox1:{
+        width: '80%',
+        flexDirection: 'row',
+        textAlign: 'center'
     },
     contentFalse: {
         paddingVertical: 5,
-        width: '100%',
         fontSize: 24,
-
     },
     contentTrue: {
         paddingVertical: 5,
-        width: '100%',
         fontSize: 24,
-
         opacity: 0.5,
         textDecorationLine: 'line-through',
     },

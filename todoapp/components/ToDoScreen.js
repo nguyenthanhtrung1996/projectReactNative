@@ -1,79 +1,102 @@
-import React, { useState, useContext } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { stylesToDoScreen } from './controller/style';
 import { TodoContext } from '../context/todo';
 
 
 
-function ToDoScreen({ navigation }){
-    // const { todoList, handlerSubmitInput, handlerOnChangActive, handlerAllCompleted, changeFlex } = props;
-    const [ todoList, handlerSubmitInput, handlerOnChangActive, handlerAllCompleted ] = useContext(TodoContext);
-    // console.log(handlerSubmitInput);
-    // , handlerSubmitInput, handlerOnFilterItem, handlerOnChangActive,handlerAllCompleted,
-    const [ term, setTerm ] = useState();
+function ToDoScreen({ route, navigation }){
+    const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo ] = useContext(TodoContext);
+    console.log(addWork);
+    useEffect(()=>{
+        addWork(route.params);
+    }, [route.params]);
+
+
     const [ focus, setFocus ]= useState(false);
     return (
         <View style={stylesToDoScreen.container}>
-            <View style={stylesToDoScreen.formInput}>
-                <View style={{justifyContent: 'center'}}>
-                    <Icon 
-                        name='chevron-down-outline' 
-                        size={24} 
-                        style={stylesToDoScreen.checkAll}
-                        onPress={() => handlerAllCompleted()}
-                    />
-                </View>
-                
-                <TextInput 
-                    style={focus ? stylesToDoScreen.focusInput : stylesToDoScreen.input}
-                    onChangeText={(text) => {setTerm(text);}}
-                    value={term}
-                    placeholder='What Need To Be Done?'
-                    onFocus={() => {
-                        setFocus(true);
-                        changeFlex(true);
-                    }}
-                    onBlur={() => {
-                        setFocus(false);
-                        changeFlex(false);
-                    }}
-                />
+             <View style={stylesToDoScreen.buttonBox}>
                 <TouchableOpacity
                     style={stylesToDoScreen.button}
-                    onPress={()=>{
-                        handlerSubmitInput(term);
-                        setTerm('');}}
+                    onPress={() => navigation.navigate('AddWorkPage')}
                     >
-                    <Text style={stylesToDoScreen.buttonText}>ADD</Text>
+                     <Icon style={{textAlignVertical: 'center'}} name='add-circle' size={48} color="#6c5ce7"/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={stylesToDoScreen.button}
+                    onPress={() => removeData()}
+                    >
+                    <Text style={stylesToDoScreen.buttonText}>Empty</Text>
                 </TouchableOpacity>
              </View>
-            <View style = {{flex: 1,width: '100%'}}>
-
+             
+            <View style = {todoList.length > 11 ? stylesToDoScreen.contentFlex : stylesToDoScreen.content }
+                >
                 <ScrollView>
-                {todoList.map(function(item){
+                {todoList.length == 0 ? 
+                    <View >
+                        <Text style={stylesToDoScreen.nothing}>Nothing...</Text>
+                    </View> : 
+                todoList.map(function(item){
                     if(item.isComplete == false){
                         return (
-                            <Text 
-                                style={stylesToDoScreen.contentFalse}  
-                                onPress={() => {
-                                    handlerOnChangActive(item);
-                                    navigation.navigate('AddWorkPage', { item });
-                                }
-                                }
-                            >
-                                <Icon name='checkmark-outline' size={24}/>
-                                {item.work}
-                            </Text>
+                            <View style = {stylesToDoScreen.contentBox}>
+                                <View style = {stylesToDoScreen.contentBox1}>
+                                    <Icon 
+                                        style={{textAlignVertical:'center', color: '#6c5ce7'}} 
+                                        name='ellipse-outline' 
+                                        size={20}
+                                        onPress={()=>{
+                                            handlerOnChangActive(item);
+                                        }}
+                                    />
+                                    <Text 
+                                        style={stylesToDoScreen.contentFalse}  
+                                        onPress={() => {
+                                            navigation.navigate('AddWorkPage', { item });
+                                        }
+                                        }
+                                        numberOfLines={1}
+                                    >
+                                        {item.title}
+                                    </Text>
+                                </View>
+                                {/* <Icon style={{textAlignVertical:'center'}} name='trash-outline' size={24}/> */}
+                            </View>
                     )} else if ( item.isComplete == true){
                         return(
-                            <Text 
-                             style={stylesToDoScreen.contentTrue} 
-                             onPress={() => handlerOnChangActive(item)}
-                             >
-                                <Icon name='checkmark-outline' size={24}/>
-                                {item.work}
-                            </Text>
+                            <View style = {stylesToDoScreen.contentBox}>
+                                <View style = {stylesToDoScreen.contentBox1}>
+                                    <Icon 
+                                        style={{textAlignVertical:'center', color: '#6c5ce7'}} 
+                                        name='ellipse' 
+                                        size={20}
+                                        onPress={()=>{
+                                            handlerOnChangActive(item);
+                                        }}
+                                    />
+                                    <Text 
+                                        style={stylesToDoScreen.contentTrue}  
+                                        onPress={() => {
+                                            navigation.navigate('AddWorkPage', { item });
+                                        }
+                                        }
+                                        numberOfLines={1}
+                                    >
+                                        {item.title}
+                                    </Text>
+                                </View>
+                                <Icon 
+                                    style={{textAlignVertical:'center'}} 
+                                    name='trash-outline' 
+                                    size={24}
+                                    onPress={() => {
+                                        deleteToDo(item);
+                                    }}
+                                />
+                            </View>
                     )}
                 })}
                 
@@ -81,41 +104,6 @@ function ToDoScreen({ navigation }){
             </View>
             
             
-            {/* <View style={stylesToDoScreen.footer}>
-                
-                    <TouchableOpacity
-                    style={stylesToDoScreen.button}
-                    // onPress={()=>{
-                    //     handlerOnFilterItem('All');
-                    //     }}
-                    >
-                        <Text style={stylesToDoScreen.buttonText}>ALL</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    style={stylesToDoScreen.button}
-                    // onPress={()=>{
-                    //     handlerOnFilterItem('Active');
-                    //     }}
-                    >
-                        <Text style={stylesToDoScreen.buttonText}>ACTIVE</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    style={stylesToDoScreen.button}
-                    // onPress={()=>{
-                    //     handlerOnFilterItem('Completed');
-                    //     }}
-                    >
-                        <Text style={stylesToDoScreen.buttonText}>COMPLETED</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={stylesToDoScreen.button}
-                        // onPress={()=>{
-                        //     handlerOnFilterItem('Clear Completed');
-                        //     }}
-                        >
-                            <Text style={stylesToDoScreen.buttonText}>CLEAR COMPLETED</Text>
-                    </TouchableOpacity>
-            </View> */}
         </View>
     )
 }

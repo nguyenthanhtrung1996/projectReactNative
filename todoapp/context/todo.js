@@ -43,12 +43,21 @@ export function TodoProvider(props){
           }
     };
 
+    const removeData = async (useName) => {
+        try {
+            await AsyncStorage.removeItem('todoList');
+            setTodoList([]);
+        } catch (error) {
+        console.log(error);
+        }
+    };
+
     function setData(obj){
         setAsyncStorage(obj);
         setTodoList(obj);
     }
 
-       
+    
 
    
     function check(item){
@@ -84,48 +93,54 @@ export function TodoProvider(props){
 
     function handlerOnChangActive(item){
         const newList = [...todoList];
-        newList[item.id-1].isComplete = !newList[item.id-1].isComplete;
+        const index = newList.indexOf(item);
+        newList[index].isComplete = !newList[index].isComplete;
         setData(newList);
     }
     
-    function handlerAllCompleted(){
-        const newList = [...todoList];
-        for (const items in newList) {
-            if(newList[items].isComplete == false) {
-                newList[items].isComplete = true;
-            }
-        }
-        setData(newList);
-    }
 
-    function handlerOnFilterItem(text){
-            const filterName = text;
-            if(filterName == 'All'){
-                
-            } else if ( filterName == 'Active') {
-                const action = activeWork(filterName);
-                dispatch(action);
-            } else if ( filterName == 'Completed') {
-                const action = completeWork(filterName);
-                dispatch(action);
-            } else if ( filterName == 'Clear Completed') {
-                for (const items in toDoList) {
-                    if(toDoList[items].isComplete == true) {
-                        dispatch(deleteToDo(toDoList[items].id));
-                    }
-                }
+    function addWork(obj){
+        console.log(obj);
+        if(obj == undefined) return;
+        if (obj.id !== undefined) {
+            const newItem = {
+                id:  obj.id,
+                title: obj.title,
+                work: obj.work,
+                isComplete: false
             }
-            
+            const newList = [...todoList];
+            newList[obj.id - 1]= {...newItem};
+            setData(newList);
+        } else {
+            const newItem = {
+                id:  todoList[todoList.length-1] ? parseInt(todoList[todoList.length-1].id)+1 : 1,
+                title: obj.title,
+                work: obj.work,
+                isComplete: false
+                }
+                const newList = [...todoList];
+                newList.push(newItem);
+                setData(newList);
         }
+    }
+    function deleteToDo(obj){
+        console.log(obj);
+        const newList = [...todoList];
+        const index = newList.indexOf(obj);
+        newList.splice(index,1);
+        setData(newList);
+        
+    }
 
     return(
         <TodoContext.Provider 
             value={[
                 todoList,
-                handlerSubmitInput,
                 handlerOnChangActive,
-                handlerAllCompleted,
-                // handlerOnFilterItem, 
+                removeData,
+                addWork,
+                deleteToDo
             ]}
         >
             {props.children}
