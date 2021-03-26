@@ -107,6 +107,7 @@ export function TodoProvider(props){
                 id:  obj.id,
                 title: obj.title,
                 work: obj.work,
+                time: obj.time,
                 isComplete: false
             }
             const newList = [...todoList];
@@ -117,6 +118,7 @@ export function TodoProvider(props){
                 id:  todoList[todoList.length-1] ? parseInt(todoList[todoList.length-1].id)+1 : 1,
                 title: obj.title,
                 work: obj.work,
+                time: obj.time,
                 isComplete: false
                 }
                 const newList = [...todoList];

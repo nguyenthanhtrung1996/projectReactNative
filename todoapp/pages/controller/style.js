@@ -39,5 +39,8 @@ export const stylesAddWorkPage = StyleSheet.create({
       paddingVertical: 10,
       backgroundColor: '#6c5ce7',
       borderRadius: 20
+    },
+    warning: {
+      color: 'red'
     }
 })

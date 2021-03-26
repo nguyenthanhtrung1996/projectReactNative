@@ -15,8 +15,12 @@ function ToDoScreen({ route, navigation }){
 
 
     const [ focus, setFocus ]= useState(false);
+
+  
+
     return (
         <View style={stylesToDoScreen.container}>
+            
              <View style={stylesToDoScreen.buttonBox}>
                 <TouchableOpacity
                     style={stylesToDoScreen.button}
@@ -62,7 +66,9 @@ function ToDoScreen({ route, navigation }){
                                     >
                                         {item.title}
                                     </Text>
+                                    
                                 </View>
+                                <Text style={stylesToDoScreen.time}>{item.time}</Text>
                                 {/* <Icon style={{textAlignVertical:'center'}} name='trash-outline' size={24}/> */}
                             </View>
                     )} else if ( item.isComplete == true){
