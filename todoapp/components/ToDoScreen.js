@@ -7,7 +7,7 @@ import { TodoContext } from '../context/todo';
 
 
 function ToDoScreen({ route, navigation }){
-    const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo ] = useContext(TodoContext);
+    const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, decreaseTime ] = useContext(TodoContext);
     console.log(addWork);
     useEffect(()=>{
         addWork(route.params);
@@ -20,11 +20,12 @@ function ToDoScreen({ route, navigation }){
 
     return (
         <View style={stylesToDoScreen.container}>
-            
              <View style={stylesToDoScreen.buttonBox}>
                 <TouchableOpacity
                     style={stylesToDoScreen.button}
-                    onPress={() => navigation.navigate('AddWorkPage')}
+                    onPress={() => {
+                        navigation.navigate('AddWorkPage', { decreaseTime });
+                    }}
                     >
                      <Icon style={{textAlignVertical: 'center'}} name='add-circle' size={48} color="#6c5ce7"/>
                 </TouchableOpacity>
@@ -68,8 +69,12 @@ function ToDoScreen({ route, navigation }){
                                     </Text>
                                     
                                 </View>
-                                <Text style={stylesToDoScreen.time}>{item.time}</Text>
-                                {/* <Icon style={{textAlignVertical:'center'}} name='trash-outline' size={24}/> */}
+                                { item.hours == 0 ? 
+                                    <Text style={stylesToDoScreen.time}>{item.minute}</Text>
+                                    : <Text style={stylesToDoScreen.time}>{item.hours}:{item.minute}</Text>}
+                                
+                                
+                                
                             </View>
                     )} else if ( item.isComplete == true){
                         return(

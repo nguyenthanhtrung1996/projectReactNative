@@ -9,18 +9,18 @@ export const stylesAddWorkPage = StyleSheet.create({
     },
     InputTitle: {
       fontSize: 24,
-      // borderWidth: 2,
-      borderColor: '#9E9E9E',
-      backgroundColor : "#FFFFFF",
       borderBottomWidth: 2,
       borderColor: '#ecf0f1',
+      backgroundColor : "#FFFFFF",
       elevation: 15
+      
     },
     InputWork: {
       // borderWidth: 2,
-      borderColor: '#9E9E9E',
+      // fontSize: 24,
       backgroundColor : "#FFFFFF",
-      elevation: 15
+      elevation: 15,
+      marginBottom: 15
     },
     ButtonView:{
       flexDirection: 'row',
@@ -42,5 +42,8 @@ export const stylesAddWorkPage = StyleSheet.create({
     },
     warning: {
       color: 'red'
+    },
+    success: {
+      color: 'black'
     }
 })

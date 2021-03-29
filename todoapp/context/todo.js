@@ -98,6 +98,19 @@ export function TodoProvider(props){
         setData(newList);
     }
     
+    function decreaseTime(){
+        const time = setInterval(() => {
+            for( let i = 0; i < todoList.length; i++){
+                const newItem = [...todoList[id]];
+                --newItem.miute;
+                setData(newItem);
+            }
+            
+        }, 1000);
+    }
+    function clearTimeout(){
+        clearTimeout(time);
+    }
 
     function addWork(obj){
         console.log(obj);
@@ -107,7 +120,9 @@ export function TodoProvider(props){
                 id:  obj.id,
                 title: obj.title,
                 work: obj.work,
-                time: obj.time,
+                hours: obj.hours,
+                minute: obj.minute,
+                // second: 0,
                 isComplete: false
             }
             const newList = [...todoList];
@@ -118,7 +133,8 @@ export function TodoProvider(props){
                 id:  todoList[todoList.length-1] ? parseInt(todoList[todoList.length-1].id)+1 : 1,
                 title: obj.title,
                 work: obj.work,
-                time: obj.time,
+                hours: obj.hours,
+                minute: obj.minute,
                 isComplete: false
                 }
                 const newList = [...todoList];
@@ -142,7 +158,9 @@ export function TodoProvider(props){
                 handlerOnChangActive,
                 removeData,
                 addWork,
-                deleteToDo
+                deleteToDo,
+                decreaseTime,
+                clearTimeout
             ]}
         >
             {props.children}
