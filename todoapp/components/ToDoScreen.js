@@ -7,10 +7,11 @@ import { TodoContext } from '../context/todo';
 
 
 function ToDoScreen({ route, navigation }){
-    const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, decreaseTime ] = useContext(TodoContext);
-    console.log(addWork);
+    const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, currentDate ] = useContext(TodoContext);
+    // console.log(clearTime);
     useEffect(()=>{
         addWork(route.params);
+        // decreaseTime();
     }, [route.params]);
 
 
@@ -20,11 +21,12 @@ function ToDoScreen({ route, navigation }){
 
     return (
         <View style={stylesToDoScreen.container}>
+            
              <View style={stylesToDoScreen.buttonBox}>
                 <TouchableOpacity
                     style={stylesToDoScreen.button}
                     onPress={() => {
-                        navigation.navigate('AddWorkPage', { decreaseTime });
+                        navigation.navigate('AddWorkPage', { });
                     }}
                     >
                      <Icon style={{textAlignVertical: 'center'}} name='add-circle' size={48} color="#6c5ce7"/>
@@ -69,9 +71,9 @@ function ToDoScreen({ route, navigation }){
                                     </Text>
                                     
                                 </View>
-                                { item.hours == 0 ? 
-                                    <Text style={stylesToDoScreen.time}>{item.minute}</Text>
-                                    : <Text style={stylesToDoScreen.time}>{item.hours}:{item.minute}</Text>}
+                                {/* { item.time.hours == null  ? 
+                                    <Text style={stylesToDoScreen.time}>{item.time.minute}</Text> */}
+                                <Text style={stylesToDoScreen.time}>{item.time.hours}:{item.time.minute}</Text>
                                 
                                 
                                 

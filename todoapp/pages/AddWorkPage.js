@@ -9,21 +9,17 @@ function AddWorkPage({ route, navigation }) {
     const [ time, setTime ] = useState();
 
     useEffect(() => {
-      console.log(route.params);
       
-      if(route.params !== undefined){
+      if(route.params.objTime){
+        console.log('time: ', route.params.objTime);
+        setTime(route.params.objTime);
+      }
+      if(route.params.item){
         setTextWork(route.params.item.work);
         setTextTitle(route.params.item.title);
       }
-    }, []);
+    });
  
-     function getTime(objTime){
-        console.log("time ne: ",objTime);
-        const newTime = {...objTime}
-        setTime(newTime);
-        console.log('time: ',time);
-     }
-    
 
     return (
         <View style={stylesAddWorkPage.container}>
@@ -45,7 +41,7 @@ function AddWorkPage({ route, navigation }) {
             <View 
                 style={{ flexDirection:'row', justifyContent:'space-between', padding: 10, backgroundColor: 'white',elevation: 15, marginBottom: 15 }}  
                 onStartShouldSetResponder={() => {
-                  navigation.navigate('Reminder', { getTime: (obj) => { getTime(obj) } })
+                  navigation.navigate('Reminder')
                 }}
             >
               
@@ -61,13 +57,12 @@ function AddWorkPage({ route, navigation }) {
               onPress={() => {
                 navigation.navigate('ToDoScreen', 
                 { 
-                  id: route.params ? 
+                  id: route.params.item ? 
                   route.params.item.id : 
                   undefined , 
                   title: textTitle, 
                   work: textWork,
-                  hours: time.hours,
-                  minute: time.minute,
+                  time
                  })
               }}
               >

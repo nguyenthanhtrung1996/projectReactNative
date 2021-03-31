@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { AsyncStorage }
-import axios from 'axios'
+// import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
@@ -8,30 +8,59 @@ export const TodoContext = React.createContext();
 
 export function TodoProvider(props){
     const [ todoList, setTodoList ] = useState([]);
-
     useEffect(() => {
-
-        retrieveToDo = async () => {
+        
+        retrieveToDo = async (callback) => {
             try {
                 const jsonValue = await AsyncStorage.getItem('todoList')
-                console.log(JSON.parse(jsonValue));
+                console.log('todolist json', JSON.parse(jsonValue));
                 if(jsonValue !== null){
                     setTodoList(JSON.parse(jsonValue))
                 }
             } catch(error) {
                 console.log(error);
             }
-            console.log('get....');
+            callback();
           };
         retrieveToDo();
+        
+        return () => {
+            
+        }
     }, []);
 
-    const setAsyncStorage = async (object) => {
-        console.log(object);
+    useEffect(()=>{
+        if(todoList.length > 0) {
+            var check  = setInterval( () => {
+                const d = new Date();
+                const h = d.getHours();
+                const m = d.getMinutes();
+                console.log(`đang check 2 ${h}:${m}, ${todoList}`);
+                const newList = [...todoList];
+                console.log(newList);
+                for (const todo of newList) {
+                    if(todo.time.hours == h && todo.time.minute == m && todo.isComplete == false){
+                        todo.isComplete = true;
+                        Alert.alert(`Remind: ${todo.title}`, `${todo.work}`);
+                        
+                    }
+                    console.log(todo)
+                }
+                console.log(newList)
+                setData(newList);
+            }, 5000);
+        }
+        return () => {
+            clearInterval(check);
+        }
+    }, [todoList]);
+
+    const setAsyncStorage = async () => {
+        // console.log(object);
         try {
             await AsyncStorage.setItem(
               'todoList',
-              JSON.stringify(object),
+              JSON.stringify(todoList),
               () => {
                   AsyncStorage.mergeItem(
                   'todoList',
@@ -55,41 +84,10 @@ export function TodoProvider(props){
     function setData(obj){
         setAsyncStorage(obj);
         setTodoList(obj);
+        console.log(todoList)
     }
 
-    
 
-   
-    function check(item){
-        if(item == '' || item == 'undefined') {
-            Alert.alert('Error', `Work isn't empty or undefined!!`)
-            return true;
-        }
-        item = item.replace(/\s+/g,' ').trim();
-        for (const obj of todoList) {
-            if(item.toLowerCase() === obj.work.toLowerCase()){
-                Alert.alert('Error', 'Work haved!!')
-                return true;
-            }
-        }
-        return false;
-    }
-    function handlerSubmitInput(item){
-        console.log(item);
-        if(check(item) == true){
-            return;
-        } else {
-            item = item.replace(/\s+/g,' ').trim();
-            const newItem = {
-                id:  todoList[todoList.length-1] ? parseInt(todoList[todoList.length-1].id)+1 : 1,
-                work: item,
-                isComplete: false
-            }
-            const newList = [...todoList];
-            newList.push(newItem);
-            setData(newList);
-        }
-    }
 
     function handlerOnChangActive(item){
         const newList = [...todoList];
@@ -98,31 +96,16 @@ export function TodoProvider(props){
         setData(newList);
     }
     
-    function decreaseTime(){
-        const time = setInterval(() => {
-            for( let i = 0; i < todoList.length; i++){
-                const newItem = [...todoList[id]];
-                --newItem.miute;
-                setData(newItem);
-            }
-            
-        }, 1000);
-    }
-    function clearTimeout(){
-        clearTimeout(time);
-    }
-
+  
     function addWork(obj){
-        console.log(obj);
+        
         if(obj == undefined) return;
         if (obj.id !== undefined) {
             const newItem = {
                 id:  obj.id,
                 title: obj.title,
                 work: obj.work,
-                hours: obj.hours,
-                minute: obj.minute,
-                // second: 0,
+                time: obj.time,
                 isComplete: false
             }
             const newList = [...todoList];
@@ -133,14 +116,14 @@ export function TodoProvider(props){
                 id:  todoList[todoList.length-1] ? parseInt(todoList[todoList.length-1].id)+1 : 1,
                 title: obj.title,
                 work: obj.work,
-                hours: obj.hours,
-                minute: obj.minute,
+                time: obj.time,
                 isComplete: false
                 }
                 const newList = [...todoList];
                 newList.push(newItem);
                 setData(newList);
         }
+        
     }
     function deleteToDo(obj){
         console.log(obj);
@@ -159,8 +142,6 @@ export function TodoProvider(props){
                 removeData,
                 addWork,
                 deleteToDo,
-                decreaseTime,
-                clearTimeout
             ]}
         >
             {props.children}
