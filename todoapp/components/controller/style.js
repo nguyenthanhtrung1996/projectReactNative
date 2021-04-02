@@ -79,8 +79,8 @@ export const stylesToDoScreen = StyleSheet.create({
         textAlign: 'center'
     },
     time: {
-        paddingVertical: 5,
-        fontSize: 24,
+        // paddingVertical: 5,
+        // fontSize: 24,
     },
     contentFalse: {
         paddingVertical: 5,

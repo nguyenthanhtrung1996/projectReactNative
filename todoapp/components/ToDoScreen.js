@@ -1,24 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Dimensions, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { stylesToDoScreen } from './controller/style';
 import { TodoContext } from '../context/todo';
+import { stylesToDoScreen } from './controller/style';
 
 
 
 function ToDoScreen({ route, navigation }){
     const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, currentDate ] = useContext(TodoContext);
-    // console.log(clearTime);
-    useEffect(()=>{
-        addWork(route.params);
-        // decreaseTime();
-    }, [route.params]);
-
-
-    const [ focus, setFocus ]= useState(false);
-
-  
-
+    // useEffect(()=>{
+    //     addWork(route.params);
+    // }, [route.params]);
+    console.log(todoList);
     return (
         <View style={stylesToDoScreen.container}>
             
@@ -29,7 +22,12 @@ function ToDoScreen({ route, navigation }){
                         navigation.navigate('AddWorkPage', { });
                     }}
                     >
-                     <Icon style={{textAlignVertical: 'center'}} name='add-circle' size={48} color="#6c5ce7"/>
+                    <Icon 
+                        style={{textAlignVertical: 'center'}} 
+                        name='add-circle' 
+                        size={48} 
+                        color="#6c5ce7"
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={stylesToDoScreen.button}
@@ -69,11 +67,16 @@ function ToDoScreen({ route, navigation }){
                                     >
                                         {item.title}
                                     </Text>
-                                    
                                 </View>
-                                {/* { item.time.hours == null  ? 
-                                    <Text style={stylesToDoScreen.time}>{item.time.minute}</Text> */}
-                                <Text style={stylesToDoScreen.time}>{item.time.hours}:{item.time.minute}</Text>
+                                <Icon 
+                                    name="pencil" 
+                                    size={24} 
+                                    style={{textAlignVertical:'center'}}
+                                    onPress={() => {
+                                        navigation.navigate('AddWorkPage', { item });
+                                    }
+                                    }
+                                />
                                 
                                 
                                 
@@ -112,11 +115,8 @@ function ToDoScreen({ route, navigation }){
                             </View>
                     )}
                 })}
-                
                 </ScrollView>
             </View>
-            
-            
         </View>
     )
 }

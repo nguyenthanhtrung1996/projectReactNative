@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View, Button, TextInput, TouchableHighlight } from 'react-native';
 import { stylesAddWorkPage } from './controller/style'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { TodoContext } from '../context/todo';
 
 function AddWorkPage({ route, navigation }) {
+  const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, currentDate ] = useContext(TodoContext);
     const [ textWork, setTextWork ] = useState()
     const [ textTitle, setTextTitle ] = useState()
     const [ time, setTime ] = useState();
@@ -55,15 +57,18 @@ function AddWorkPage({ route, navigation }) {
               <TouchableHighlight 
               style={stylesAddWorkPage.Button}
               onPress={() => {
-                navigation.navigate('ToDoScreen', 
-                { 
-                  id: route.params.item ? 
-                  route.params.item.id : 
-                  undefined , 
-                  title: textTitle, 
-                  work: textWork,
-                  time
-                 })
+                navigation.navigate('ToDoScreen');
+                addWork(
+                  { 
+                    id: route.params.item ? 
+                    route.params.item.id : 
+                    undefined , 
+                    title: textTitle, 
+                    work: textWork,
+                    time: time ? time : 0
+                   }
+                );
+                
               }}
               >
               
