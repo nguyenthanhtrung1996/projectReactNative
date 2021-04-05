@@ -45,5 +45,55 @@ export const stylesAddWorkPage = StyleSheet.create({
     },
     success: {
       color: 'black'
+    },
+    reminder: {
+      flexDirection:'row',
+      justifyContent:'space-between',
+      padding: 10,
+      backgroundColor: 'white',
+      elevation: 15, 
+      marginBottom: 15 
+    },
+    reminderText: {
+      color: '#95a5a6'
+    },
+    reminderIcon: {
+      color: '#95a5a6',
+      fontSize: 24,
+      textAlignVertical:'center'
+    }
+})
+
+export const stylesReminder = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    warning: {
+      color: 'red'
+    },
+    Button: {
+      width: '30%',
+      borderRadius: 20
+    },
+    TextAdd: {
+      fontSize: 20,
+      color: 'white',
+      textAlign: 'center',
+      width: '100%',
+      paddingVertical: 10,
+      backgroundColor: '#6c5ce7',
+      borderRadius: 20
+    },
+    Text:{
+      fontSize: 22
+    },
+    reminder: {
+      flexDirection: 'row',
+      alignItems:'center'
+    },
+    input: {
+      backgroundColor: 'white'
     }
 })

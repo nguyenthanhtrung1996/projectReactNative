@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-// import { AsyncStorage }
-// import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 export const TodoContext = React.createContext();
@@ -44,7 +42,6 @@ export function TodoProvider(props){
                         
                     }
                 }
-                // console.log(todoList)
             }, 5000);
         }
         return () => {
@@ -70,7 +67,7 @@ export function TodoProvider(props){
           }
     };
 
-    const removeData = async (useName) => {
+    const removeData = async () => {
         try {
             await AsyncStorage.removeItem('todoList');
             setTodoList([]);
@@ -95,7 +92,6 @@ export function TodoProvider(props){
     
   
     function addWork(obj){
-        // console.log(obj)
         if(obj == undefined && obj == undefined) return;
         if (obj.id !== undefined) {
             const newItem = {

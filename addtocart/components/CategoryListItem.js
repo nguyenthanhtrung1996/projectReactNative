@@ -8,7 +8,7 @@ export default function CategoryListItem(props){
     const { category, onPress } = props;
     return (
     <TouchableHighlight onPress={onPress}>
-        <View style={stylesCategoryListItem.container}>
+        <View style={stylesCategoryListItem.container} >
             <Text style={stylesCategoryListItem.title}> {category.name} </Text>
             <Image style={stylesCategoryListItem.categoryImage} source={Img} /> 
          

@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View, Button, TextInput, TouchableHighlight } from 'react-native';
-import { stylesAddWorkPage } from './controller/style'
+import { Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TodoContext } from '../context/todo';
+import { stylesAddWorkPage } from './controller/style';
 
 function AddWorkPage({ route, navigation }) {
-  const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, currentDate ] = useContext(TodoContext);
+  const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo ] = useContext(TodoContext);
     const [ textWork, setTextWork ] = useState()
     const [ textTitle, setTextTitle ] = useState()
     const [ time, setTime ] = useState();
@@ -41,14 +41,14 @@ function AddWorkPage({ route, navigation }) {
               multiline={true}
             />
             <View 
-                style={{ flexDirection:'row', justifyContent:'space-between', padding: 10, backgroundColor: 'white',elevation: 15, marginBottom: 15 }}  
+                style={stylesAddWorkPage.reminder}  
                 onStartShouldSetResponder={() => {
                   navigation.navigate('Reminder')
                 }}
             >
               
-              <Text style={{color: '#95a5a6'}}>Reminder</Text>
-              <Icon style={{ color: '#95a5a6', fontSize: 24 ,textAlignVertical:'center'}} name='chevron-forward' />
+              <Text style={stylesAddWorkPage.reminderText}>Reminder</Text>
+              <Icon style={stylesAddWorkPage.reminderIcon} name='chevron-forward' />
               
             </View>
            

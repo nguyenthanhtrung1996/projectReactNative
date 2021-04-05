@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TodoContext } from '../context/todo';
@@ -8,9 +8,6 @@ import { stylesToDoScreen } from './controller/style';
 
 function ToDoScreen({ route, navigation }){
     const [ todoList, handlerOnChangActive, removeData, addWork, deleteToDo, currentDate ] = useContext(TodoContext);
-    // useEffect(()=>{
-    //     addWork(route.params);
-    // }, [route.params]);
     console.log(todoList);
     return (
         <View style={stylesToDoScreen.container}>

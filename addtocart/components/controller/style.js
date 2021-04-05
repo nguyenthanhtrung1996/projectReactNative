@@ -16,20 +16,20 @@ export const stylesCartScreen = StyleSheet.create({
         borderRadius: 4,
         backgroundColor: '#FFF',
         overflow: 'hidden',
-        flexDirection: 'row'
+        elevation: 15,
+        
     },
-    shadow: {
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        shadowOffset: { width: 0, height: 0 }
+    product: {
+        
+        flexDirection: 'row'
+
     },
     info: {
-        padding: 8,
-        flexDirection: 'column',
         flex: 1,
+        padding: 8,
+
+        flexDirection: 'column',
         justifyContent: 'center',
-        
     },
     img: {
         flex: 1,
@@ -57,16 +57,17 @@ export const stylesCategoryListItem = StyleSheet.create({
         width: 64,
         height: 64
     },
+    
     container: {
         alignItems: 'center',
-        padding: 16,
-        borderRadius: 4,
         backgroundColor: '#FFF',
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 10,
-        shadowOffset: { width: 0, height: 0 },
-        marginBottom: 16
+
+        marginBottom: 16,
+        marginTop: 8,
+        padding: 16,
+        
+        borderRadius: 4,
+        elevation: 10,
     },
     title:{
         textTransform: 'uppercase',
@@ -98,7 +99,7 @@ export const stylesProductListItem = StyleSheet.create({
     },
     img: {
         width: '100%',
-        height: 250,
+        height: 150,
         borderRadius: 4
     },
     name: {

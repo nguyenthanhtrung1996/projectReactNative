@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, Text, TextInput, TouchableHighlight } from 'react-native';
-import { stylesAddWorkPage } from './controller/style'
+import { Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { stylesReminder } from './controller/style';
 
 function Reminder({ route, navigation }) {
     // const [ day, setDay ] = useState('00');
@@ -14,41 +14,15 @@ function Reminder({ route, navigation }) {
     const [currentDate, setCurrentDate] = useState('');
 
     useEffect(() => {
-      console.log('set data')
       var d = new Date();
       var n = d.toLocaleTimeString();
       setCurrentDate(n);
       var h = (d.getHours()+1).toString();
-      setHours(h);
+      setHours((`0${h}`).slice(-2));
 
-      // var y = (d.getFullYear()).toString();
-      // setYear(y);
-
-      // var m = (d.getMonth()).toString();
-      // setMonth(m);
-
-      // var date = (d.getDate()).toString();
-      // setDay(date);
-
-      // console.log(date);
-      console.log('currentDate: ', currentDate);
+      console.log('currentDate: ', (`0${h}`).slice(-2));
     }, []);
     
-    function checkNumber(minute){
-        const minuteCheck = parseInt(minute);
-        const newHours = parseInt(hours);
-      // console.log(parseInt(minuteCheck));
-      if(minuteCheck > 60 || minuteCheck < 0 || isNaN(minuteCheck) || !Number.isInteger(minuteCheck)){
-        setCheck(false);
-        console.log('sai')
-        return;
-      }
-      setCheck(true);
-      const objTime = { hours: newHours , minute: minuteCheck };
-      route.params.getTime(objTime);
-      navigation.navigate('AddWorkPage');
-    //   console.log('đúng' , numbercheck);
-    }
     function getData(){
         if(check == true){
             const newHours = parseInt(hours);
@@ -59,19 +33,17 @@ function Reminder({ route, navigation }) {
     }
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={stylesReminder.container}>
         <View>
-          <Text style = {{fontSize:22}}>Current Time: {currentDate}</Text>
+          <Text style = {stylesReminder.Text}>Current Time: {currentDate}</Text>
         </View>
-        <View style={{flexDirection: 'row', alignItems:'center'}}>
-          <Text style = {{fontSize:22}}>Remind at: </Text>
+        <View style={stylesReminder.reminder}>
+          <Text style = {stylesReminder.Text}>Remind at: </Text>
           <TextInput 
-              style={{backgroundColor: 'white'}}
-              
+              style={stylesReminder.input}
               placeholder='00'
               keyboardType='numeric'
               onChangeText = { (data) =>{
-                console.log(data);
                 const hoursCheck = parseInt(data);
                 if(hoursCheck > 23 || hoursCheck < 0 || isNaN(hoursCheck) || !Number.isInteger(hoursCheck) ){
                     setCheck(false);
@@ -87,11 +59,10 @@ function Reminder({ route, navigation }) {
           />
           <Text>:</Text>
           <TextInput 
-              style={{backgroundColor: 'white'}}
+              style={stylesReminder.input}
               placeholder='00'
               keyboardType='numeric'
               onChangeText = { (data) =>{
-                console.log(data);
                 const minuteCheck = parseInt(data);
                 if(minuteCheck > 60 || minuteCheck <= 0 || isNaN(minuteCheck) || !Number.isInteger(minuteCheck) ){
                     setCheck(false);
@@ -109,24 +80,19 @@ function Reminder({ route, navigation }) {
               value={minute}
           />
         </View>
-           
             {check == false ? 
-            <Text style={stylesAddWorkPage.warning}>
+            <Text style={stylesReminder.warning}>
               * Time Error
             </Text> : <Text></Text>}
             <TouchableHighlight 
-              style={stylesAddWorkPage.Button}
+              style={stylesReminder.Button}
               onPress={() => {
                 getData();
               }}
-              
               >
-              
-                <Text style={stylesAddWorkPage.Text}>Add</Text>
+                <Text style={stylesReminder.TextAdd}>Add</Text>
               </TouchableHighlight>
-        
       </View>
-      
     );
   }
 

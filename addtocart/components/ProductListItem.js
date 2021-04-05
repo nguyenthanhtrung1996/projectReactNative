@@ -5,7 +5,7 @@ import { stylesProductListItem } from './controller/style';
 export default function ProductListItem(props){
     const { cartItems, handleBuy } = props;
     return(
-        <View style={stylesProductListItem.shadow}>
+        <View>
             <View style={stylesProductListItem.container}>
                 <Image style={stylesProductListItem.img} source={{ uri: cartItems.images}} />
                 <View style={stylesProductListItem.info}>

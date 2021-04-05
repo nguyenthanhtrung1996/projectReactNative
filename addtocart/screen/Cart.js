@@ -7,13 +7,19 @@ import ValueContext from '../contexts/ValueContext';
 import { stylesCart } from './controller/style'
 
 export default function Cart(){
-    const [ cartItems, handlerDecrease, handleIncrese ] = useContext(ValueContext);
+    const [ cartItems, handlerDecrease, handleIncrese, deletedItem ] = useContext(ValueContext);
+    
     return(
         <FlatList 
         data={cartItems}
         renderItem={({item}) => 
             <View style={stylesCart.wrapper}>
-                <CartScreen cartItems={item} handlerDecrease={handlerDecrease} handleIncrese={handleIncrese}/>
+                <CartScreen 
+                    cartItems={item} 
+                    handlerDecrease={handlerDecrease} 
+                    handleIncrese={handleIncrese}
+                    deletedItem={deletedItem}
+                />
             </View>
         }
         keyExtractor={(item) => `${item.id}`}

@@ -9,6 +9,7 @@ import { stylesCategory } from './controller/style'
 
 export default function Category(props) {
   const [ cartItems, handleDecrese, handleIncrese ] = useContext(ValueContext);
+  console.log(cartItems)
   return (
     <FlatList 
       data={cartItems}
