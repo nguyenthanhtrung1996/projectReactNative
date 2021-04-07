@@ -2,24 +2,30 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { stylesAddWorkScreen } from './controller/style'
 
 function AddWorkScreen(props) {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('time');
     const [show, setShow] = useState(false);
 
+    const [activeTime, setActiveTime] = useState('');
+    const [activeWork, setActiveWork] = useState('');
+    
+    const [time,setTime] = useState('')
     const { navigation } = props;
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+        const currentDate = selectedDate;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
-        console.log(selectedDate);
+        setTime(`${event.nativeEvent.timestamp.getHours()}:${event.nativeEvent.timestamp.getMinutes()}`)
+        console.log(selectedDate, time);
     };
     return (
-        <View style={{flex: 1, padding: 15, backgroundColor: '#020f38'}}>
-            <View style={{flex:1, justifyContent:'flex-end'}}>
-                <View style={{flexDirection: 'row'}}>
+        <View style={stylesAddWorkScreen.container}>
+            <View style={stylesAddWorkScreen.header}>
+                <View style={stylesAddWorkScreen.navbar}>
                     <Icon 
                        name='chevron-back-outline' 
                        size={32} 
@@ -33,8 +39,7 @@ function AddWorkScreen(props) {
                     <Text style={{fontSize: 24, color: 'white'}}>New timer</Text>
                 </View>
             </View>
-            <View style={{flex:6}}>
-                <View style={{flex:1}}>
+            <View style={stylesAddWorkScreen.body}>
                     {show && (
                         <DateTimePicker
                             testID="dateTimePicker"
@@ -43,60 +48,177 @@ function AddWorkScreen(props) {
                             is24Hour={true}
                             display="default"
                             onChange={onChange}
+                            // timeZoneOffsetInMinutes={60}
                         />
                         )}
-                    <View style={{flex: 1, paddingVertical: 20}}>
+                    <View style={stylesAddWorkScreen.time}>
                         {/* <Text style={{color: 'white', fontSize: 18, fontWeight: '500'}}>Select time</Text> */}
-                        <TouchableOpacity
-                            onPress={()=>{
-                                setShow(true);
-                            }}
-                        >
-                        <Text style={{color: 'white', fontSize: 18, fontWeight: '500'}}>Select time</Text>
-                        </TouchableOpacity>
+                        
+                        <Text style={stylesAddWorkScreen.title}>Select time</Text>
+                        
+                        <View style={stylesAddWorkScreen.time__content}>
+                            
+                                {activeTime == '60' ?
+                                    <View style={stylesAddWorkScreen.time__box}>
+                                        <Icon
+                                            name='ellipse' 
+                                            size={96} 
+                                            color='#ff90a1'
+                                        />
+                                        <Text style={stylesAddWorkScreen.activeText}>60 min</Text>
+                                    </View>
+                                :
+                                    <View style={stylesAddWorkScreen.time__box}>
+                                        <Icon 
+                                            name='ellipse' 
+                                            size={96} 
+                                            color='#223369'
+                                            onPress={() => {
+                                                setActiveTime('60');
+                                                setTime('1:00')
+                                            }}
+                                        />
+                                        <Text style={stylesAddWorkScreen.time__text}>60 min</Text>
+                                    </View>
+                                }
+                            
+                            
+                                {activeTime == 'orther' ? 
+                                    <View style={stylesAddWorkScreen.time__box}>
+                                        <Icon 
+                                            name='pie-chart-sharp' 
+                                            size={96} color='#ff90a1'
+                                            onPress={()=>{
+                                                setShow(true);
+                                                setActiveTime('orther')
+                                            }}
+                                        />
+                                        <Text style={stylesAddWorkScreen.activeText}>Orther time...</Text>
+                                    </View>
+                                :
+                                    <View style={stylesAddWorkScreen.time__box}>
+                                        <Icon 
+                                            name='pie-chart-sharp' 
+                                            size={96} color='#223369'
+                                            onPress={()=>{
+                                                setShow(true);
+                                                setActiveTime('orther')
+                                            }}
+                                        />
+                                        <Text style={stylesAddWorkScreen.time__text}>Orther time...</Text>
+                                    </View>
+                                }
+                                
+                            
+                        </View>
                     </View>
-                    <View style={{flex: 2}}>
-                        <Text style={{color: 'white', fontSize: 18, fontWeight: '500'}}>
+                    <View style={stylesAddWorkScreen.work}>
+                        <Text style={stylesAddWorkScreen.title}>
                             Name
                         </Text>
                         <View>
-                            <View style={{flexDirection: 'row',justifyContent:'space-between',paddingVertical: 15}}>
-                                <TouchableOpacity
-                                    style={{width: '40%',justifyContent: 'center', backgroundColor: '#363d5a', borderRadius: 15,}}
-                                >
-                                    <Text style={{textAlign:'center',paddingVertical:10, fontSize: 16,color: 'white'}}>Workout</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{width: '54%',justifyContent: 'center', backgroundColor: '#363d5a', borderRadius: 15,}}
-                                >
-                                    <Text style={{textAlign:'center',paddingVertical:10, fontSize: 16,color: 'white'}}>Animation</Text>
-                                </TouchableOpacity>
+                            <View style={stylesAddWorkScreen.work__box__1}>
+                                {activeWork == 'workout' ? 
+                                    <TouchableOpacity
+                                        style={stylesAddWorkScreen.work__activeWorkout}
+                                    >
+                                        <Text style={stylesAddWorkScreen.work__text}>Workout</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        style={stylesAddWorkScreen.work__workout}
+                                        onPress={() => {
+                                            setActiveWork('workout');
+                                        }}
+                                    >
+                                        <Text style={stylesAddWorkScreen.work__text}>Workout</Text>
+                                    </TouchableOpacity>
+                                }
+                                {activeWork == 'Animation' ? 
+                                    <TouchableOpacity
+                                        style={stylesAddWorkScreen.work__activeAnimation}
+                                        
+                                    >
+                                        <Text style={stylesAddWorkScreen.work__text}>Animation</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        style={stylesAddWorkScreen.work__animation}
+                                        onPress={() => {
+                                            setActiveWork('Animation');
+                                        }}
+                                    >
+                                        <Text style={stylesAddWorkScreen.work__text}>Animation</Text>
+                                    </TouchableOpacity>
+                                }
                             </View>
                         </View>
                         <View>
-                            <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
+                            <View style={stylesAddWorkScreen.work__box__2}>
+                            {activeWork == 'Design' ?
                                 <TouchableOpacity
-                                    style={{width: '29%',justifyContent: 'center', backgroundColor: '#363d5a', borderRadius: 15,}}
+                                    style={stylesAddWorkScreen.work__active}
+                                    
                                 >
-                                    <Text style={{textAlign:'center',paddingVertical:10, fontSize: 16,color: 'white'}}>Design</Text>
+                                    <Text style={stylesAddWorkScreen.work__text}>Design</Text>
                                 </TouchableOpacity>
+                                :
                                 <TouchableOpacity
-                                    style={{width: '29%',justifyContent: 'center', backgroundColor: '#363d5a', borderRadius: 15,}}
+                                    style={stylesAddWorkScreen.work__name}
+                                    onPress={() => {
+                                        setActiveWork('Design');
+                                    }}
                                 >
-                                    <Text style={{textAlign:'center',paddingVertical:10, fontSize: 16,color: 'white'}}>Egg</Text>
+                                    <Text style={stylesAddWorkScreen.work__text}>Design</Text>
                                 </TouchableOpacity>
+                            } 
+                            {activeWork == 'Egg' ?
                                 <TouchableOpacity
-                                    style={{width: '29%',justifyContent: 'center', backgroundColor: '#363d5a', borderRadius: 15,}}
+                                    style={stylesAddWorkScreen.work__active}
+                                    
                                 >
-                                    <Text style={{textAlign:'center',paddingVertical:10, fontSize: 16,color: 'white'}}>Meditation</Text>
+                                    <Text style={stylesAddWorkScreen.work__text}>Egg</Text>
                                 </TouchableOpacity>
+                                :
+                                <TouchableOpacity
+                                    style={stylesAddWorkScreen.work__name}
+                                    onPress={() => {
+                                        setActiveWork('Egg');
+                                    }}
+                                >
+                                    <Text style={stylesAddWorkScreen.work__text}>Egg</Text>
+                                </TouchableOpacity>
+                            } 
+                            {activeWork == 'Meditation' ?
+                                <TouchableOpacity
+                                    style={stylesAddWorkScreen.work__active}
+                                    
+                                >
+                                    <Text style={stylesAddWorkScreen.work__text}>Meditation</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity
+                                    style={stylesAddWorkScreen.work__name}
+                                    onPress={() => {
+                                        setActiveWork('Meditation');
+                                    }}
+                                >
+                                    <Text style={stylesAddWorkScreen.work__text}>Meditation</Text>
+                                </TouchableOpacity>
+                            } 
                             </View>
                         </View>
                     </View>
                 </View>
-            </View>
-            <View style={{flex:1}}>
-
+            <View style={stylesAddWorkScreen.footer}>
+                <TouchableOpacity
+                    style={stylesAddWorkScreen.button}
+                    onPress={() => {
+                        navigation.navigate('Home',{ title: activeWork, time })
+                    }}
+                >
+                    <Text style={stylesAddWorkScreen.buttonText}>Add to timer</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
