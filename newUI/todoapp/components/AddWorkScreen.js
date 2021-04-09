@@ -15,12 +15,17 @@ function AddWorkScreen(props) {
     const [time,setTime] = useState('')
     const { navigation } = props;
 
+    const getTimeCurrent = () => {
+        const d = new Date();
+        return d.getTime();
+    }
+
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
-        setTime(`${event.nativeEvent.timestamp.getHours()}:${event.nativeEvent.timestamp.getMinutes()}`)
-        console.log(selectedDate, time);
+        setTime(`${event.nativeEvent.timestamp.getTime()}`)
+        console.log(selectedDate, event.nativeEvent.timestamp);
     };
     return (
         <View style={stylesAddWorkScreen.container}>
@@ -48,16 +53,11 @@ function AddWorkScreen(props) {
                             is24Hour={true}
                             display="default"
                             onChange={onChange}
-                            // timeZoneOffsetInMinutes={60}
                         />
                         )}
-                    <View style={stylesAddWorkScreen.time}>
-                        {/* <Text style={{color: 'white', fontSize: 18, fontWeight: '500'}}>Select time</Text> */}
-                        
+                    <View style={stylesAddWorkScreen.time}> 
                         <Text style={stylesAddWorkScreen.title}>Select time</Text>
-                        
                         <View style={stylesAddWorkScreen.time__content}>
-                            
                                 {activeTime == '60' ?
                                     <View style={stylesAddWorkScreen.time__box}>
                                         <Icon
@@ -75,14 +75,13 @@ function AddWorkScreen(props) {
                                             color='#223369'
                                             onPress={() => {
                                                 setActiveTime('60');
-                                                setTime('1:00')
+                                                setTime(`${getTimeCurrent()+3600000}`);
+                                                console.log(time);
                                             }}
                                         />
                                         <Text style={stylesAddWorkScreen.time__text}>60 min</Text>
                                     </View>
                                 }
-                            
-                            
                                 {activeTime == 'orther' ? 
                                     <View style={stylesAddWorkScreen.time__box}>
                                         <Icon 
@@ -108,8 +107,6 @@ function AddWorkScreen(props) {
                                         <Text style={stylesAddWorkScreen.time__text}>Orther time...</Text>
                                     </View>
                                 }
-                                
-                            
                         </View>
                     </View>
                     <View style={stylesAddWorkScreen.work}>
@@ -158,7 +155,6 @@ function AddWorkScreen(props) {
                             {activeWork == 'Design' ?
                                 <TouchableOpacity
                                     style={stylesAddWorkScreen.work__active}
-                                    
                                 >
                                     <Text style={stylesAddWorkScreen.work__text}>Design</Text>
                                 </TouchableOpacity>
@@ -175,7 +171,6 @@ function AddWorkScreen(props) {
                             {activeWork == 'Egg' ?
                                 <TouchableOpacity
                                     style={stylesAddWorkScreen.work__active}
-                                    
                                 >
                                     <Text style={stylesAddWorkScreen.work__text}>Egg</Text>
                                 </TouchableOpacity>
@@ -192,7 +187,6 @@ function AddWorkScreen(props) {
                             {activeWork == 'Meditation' ?
                                 <TouchableOpacity
                                     style={stylesAddWorkScreen.work__active}
-                                    
                                 >
                                     <Text style={stylesAddWorkScreen.work__text}>Meditation</Text>
                                 </TouchableOpacity>

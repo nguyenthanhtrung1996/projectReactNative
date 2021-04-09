@@ -7,16 +7,34 @@ import { TodoContext } from '../context/todo';
 function Homepage(props) {
     const { navigation, route } = props;
 
-    const [ todoList, addTodo ] = useContext(TodoContext);
+    const [ todoList, addTodo, getTimeCurrent, removeTodo ] = useContext(TodoContext);
 
     useEffect(()=>{
-        // console.log('useEffect route: ',route.params);
         if(route.params == undefined) return;
         addTodo(route.params);
     }, [route.params])
-    // console.log(route);
+
+    useEffect(()=>{
+        if(todoList.length == 0) return;
+        const check = setInterval(() => {
+            const newFormatList = [...todoList];
+            newFormatList.forEach((todo,index) => {
+                if(todo.time <= getTimeCurrent()){
+                    removeTodo(todo,index);
+                }
+            });
+        }, 1000);
+        return () => {
+            clearInterval(check);
+        }
+    }, [todoList])
+
+    
+    
+    
+
     return (
-        <HomepageScreen todoList={todoList} navigation={navigation}/>
+        <HomepageScreen navigation={navigation}/>
     );
 }
 
