@@ -8,7 +8,15 @@ export function TodoProvider(props){
     const [ todoList, setTodoList ] = useState([]);
     const [ todoEveryday, setTodoEveryday ] = useState([]);
 
-    
+    useEffect(() => {
+        const time = setInterval(() => {
+            getTodoEveryday();
+        }, 2000)
+        console.log('context gettodo');
+        return () => {
+            clearInterval(time);
+        }
+    },[])
 
     useEffect(() => {
         retrieveToDo = async () => {

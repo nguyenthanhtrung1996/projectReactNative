@@ -1,42 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TodoContext } from '../context/todo';
 import { stylesHomepageScreen } from './controller/style';
 
 function HomepageScreen(props) {
-    const { navigation } = props;
+    const { newTodo, todoEveryday, removeTodo, navigation } = props;
     const [active,setActive] = useState('-1');
-    const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday ] = useContext(TodoContext);
-    const [ newTodo, setNewTodo ] = useState([]);
-
+    // const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday ] = useContext(TodoContext);
+    
     useEffect(() => {
-        // if(todoList.length == 0) return;
-        const formatTime = setInterval(()=>{
-            formatTodoList();
-        }, 1000)
-        return () => {
-            clearInterval(formatTime)
-        }
-    }, [todoList]);
+        Animated.timing(innitValue, {
+            toValue: 0,
+            duration: 3000,
+            useNativeDriver : true
+        }).start();
+        Animated.timing(innitValue1, {
+            toValue: 0,
+            duration: 3000,
+            delay:100,
+            useNativeDriver : true
+        }).start();
+    }, [])
 
-    useEffect(() => {
-        const time = setInterval(() => {
-            getTodoEveryday()
-        }, 1000)
-        return () => {
-            clearInterval(time);
-        }
-    },[])
-
-    function formatTodoList(){
-        const newFormatList = [...todoList];
-        newFormatList.forEach(todo => {
-            todo.formatMinutes = `${Math.floor((todo.time - getTimeCurrent())/60000)}`;
-        });
-        setNewTodo(newFormatList);
-    }
-
+    
+    const innitValue = useRef(new Animated.Value(100)).current;
+    const innitValue1 = useRef(new Animated.Value(100)).current;
+    
+    console.log('re-render');
     return (
         <View style={stylesHomepageScreen.container}>
             <View style={stylesHomepageScreen.body}>
@@ -62,8 +52,15 @@ function HomepageScreen(props) {
                         <Text style={stylesHomepageScreen.title} >Other Timer</Text>
                         <View style={stylesHomepageScreen.otherTimer__total}>
                             {newTodo.map((todo,index) => {
-                                return (<View 
-                                            style={active == index ?  stylesHomepageScreen.otherTimer__box__active : stylesHomepageScreen.otherTimer__box}
+                                return (
+                                    // <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue }] }]}></Animated.View>
+                                        <Animated.View 
+                                            style={[active == index ?  
+                                                stylesHomepageScreen.otherTimer__box__active 
+                                                : 
+                                                stylesHomepageScreen.otherTimer__box, 
+                                                { transform: [{ translateX: innitValue }] }
+                                            ]}
                                             onStartShouldSetResponder={()=>{
                                                 setActive(index);
                                             }}
@@ -83,11 +80,13 @@ function HomepageScreen(props) {
                                                     }}
                                                 />
                                             </View>
-                                        </View>)
+                                        </Animated.View>
+                                    )
                             })}
                         </View>
                     </ScrollView>
                 </View>
+                
             </View>
             <View style={stylesHomepageScreen.footer}>
                 <TouchableOpacity
@@ -103,4 +102,4 @@ function HomepageScreen(props) {
     );
 }
 
-export default HomepageScreen;
+export default React.memo(HomepageScreen);

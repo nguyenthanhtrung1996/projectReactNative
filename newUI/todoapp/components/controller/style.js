@@ -31,12 +31,13 @@ export const stylesAddWorkScreen = StyleSheet.create({
     },
     time__box:{
         flex:1,
+        flexDirection: 'column',
         alignItems:'center', 
         justifyContent:'center' 
     },
     time__text:{
         color: '#223369', 
-        fontSize: 18
+        fontSize: 16
     },
     work:{
         flex: 2
