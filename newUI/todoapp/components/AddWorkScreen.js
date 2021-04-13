@@ -14,7 +14,7 @@ function AddWorkScreen(props) {
     const [activeWork, setActiveWork] = useState('');
     
     const [time,setTime] = useState('')
-    const { navigation } = props;
+    const { anim, navigation } = props;
 
     const getTimeCurrent = () => {
         const d = new Date();
@@ -27,11 +27,11 @@ function AddWorkScreen(props) {
             useNativeDriver : true
         }).start();
         Animated.timing(innitValue1, {
-        toValue: 0,
-        duration: 300,
-        delay:100,
-        useNativeDriver : true
-        }).start();
+            toValue: 0,
+            duration: 300,
+            delay:100,
+            useNativeDriver : true
+            }).start();
         Animated.timing(innitValue2, {
             toValue: 0,
             duration: 300,
@@ -293,7 +293,8 @@ function AddWorkScreen(props) {
                 <TouchableOpacity
                     style={stylesAddWorkScreen.button}
                     onPress={() => {
-                        navigation.navigate('Home',{ title: activeWork, time })
+                        navigation.navigate('Home',{ title: activeWork, time });
+                        anim();
                     }}
                 >
                     <Text style={stylesAddWorkScreen.buttonText}>Add to timer</Text>

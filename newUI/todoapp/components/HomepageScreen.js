@@ -4,29 +4,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { stylesHomepageScreen } from './controller/style';
 
 function HomepageScreen(props) {
-    const { newTodo, todoEveryday, removeTodo, navigation } = props;
+    const { newTodo, todoEveryday, removeTodo, innitValue, anim, navigation } = props;
     const [active,setActive] = useState('-1');
     // const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday ] = useContext(TodoContext);
     
-    useEffect(() => {
-        Animated.timing(innitValue, {
-            toValue: 0,
-            duration: 3000,
-            useNativeDriver : true
-        }).start();
-        Animated.timing(innitValue1, {
-            toValue: 0,
-            duration: 3000,
-            delay:100,
-            useNativeDriver : true
-        }).start();
-    }, [])
+    // const innitValue = useRef(new Animated.Value(100)).current;
 
-    
-    const innitValue = useRef(new Animated.Value(100)).current;
-    const innitValue1 = useRef(new Animated.Value(100)).current;
-    
-    console.log('re-render');
+    useEffect(() => {
+        anim()
+    }, [])
+    console.log('HomepageScreen re-render', newTodo);
     return (
         <View style={stylesHomepageScreen.container}>
             <View style={stylesHomepageScreen.body}>
@@ -52,8 +39,9 @@ function HomepageScreen(props) {
                         <Text style={stylesHomepageScreen.title} >Other Timer</Text>
                         <View style={stylesHomepageScreen.otherTimer__total}>
                             {newTodo.map((todo,index) => {
-                                return (
-                                    // <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue }] }]}></Animated.View>
+                                // console.log(index+1 == newTodo.length)
+                                if(index+1 == newTodo.length){
+                                    return (
                                         <Animated.View 
                                             style={[active == index ?  
                                                 stylesHomepageScreen.otherTimer__box__active 
@@ -82,11 +70,42 @@ function HomepageScreen(props) {
                                             </View>
                                         </Animated.View>
                                     )
+                                }
+                                else if(index != newTodo.length) {
+                                        return(
+                                            <View 
+                                                style={[active == index ?  
+                                                    stylesHomepageScreen.otherTimer__box__active 
+                                                    : 
+                                                    stylesHomepageScreen.otherTimer__box,
+                                                    // { transform: [{ translateX: innitValue }] }
+                                                ]}
+                                                onStartShouldSetResponder={()=>{
+                                                    setActive(index);
+                                                }}
+                                            >
+                                                <Text style={stylesHomepageScreen.otherTimer__workName}>{todo.title}</Text>
+                                                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                                                    <Text style={stylesHomepageScreen.otherTimer__time}>
+                                                        {todo.formatMinutes}min
+                                                    </Text>
+                                                    <Icon 
+                                                        style={active == index ? {textAlignVertical:'center'} : {display:'none'}} 
+                                                        color='white' 
+                                                        name='pause-sharp' 
+                                                        size={24}
+                                                        onPress={() => {
+                                                            removeTodo(todo,index);
+                                                        }}
+                                                    />
+                                                </View>
+                                            </View>
+                                        )
+                                }
                             })}
                         </View>
                     </ScrollView>
                 </View>
-                
             </View>
             <View style={stylesHomepageScreen.footer}>
                 <TouchableOpacity
