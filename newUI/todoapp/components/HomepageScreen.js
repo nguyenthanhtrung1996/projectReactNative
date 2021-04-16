@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { stylesHomepageScreen } from './controller/style';
 
 function HomepageScreen(props) {
-    const { newTodo, todoEveryday, removeTodo, innitValue, anim, navigation } = props;
+    const { todoList, todoEveryday, removeTodo, innitValue, anim, navigation } = props;
     const [active,setActive] = useState('-1');
     // const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday ] = useContext(TodoContext);
     
@@ -13,7 +13,7 @@ function HomepageScreen(props) {
     useEffect(() => {
         anim()
     }, [])
-    console.log('HomepageScreen re-render', newTodo);
+    console.log('HomepageScreen re-render', todoList);
     return (
         <View style={stylesHomepageScreen.container}>
             <View style={stylesHomepageScreen.body}>
@@ -38,9 +38,9 @@ function HomepageScreen(props) {
                     <ScrollView>
                         <Text style={stylesHomepageScreen.title} >Other Timer</Text>
                         <View style={stylesHomepageScreen.otherTimer__total}>
-                            {newTodo.map((todo,index) => {
+                            {todoList.map((todo,index) => {
                                 // console.log(index+1 == newTodo.length)
-                                if(index+1 == newTodo.length){
+                                if(index+1 == todoList.length){
                                     return (
                                         <Animated.View 
                                             style={[active == index ?  
@@ -71,7 +71,7 @@ function HomepageScreen(props) {
                                         </Animated.View>
                                     )
                                 }
-                                else if(index != newTodo.length) {
+                                else if(index != todoList.length) {
                                         return(
                                             <View 
                                                 style={[active == index ?  

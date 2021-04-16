@@ -7,7 +7,6 @@ export const TodoContext = React.createContext();
 export function TodoProvider(props){
     const [ todoList, setTodoList ] = useState([]);
     const [ todoEveryday, setTodoEveryday ] = useState([]);
-    const [ newTodo, setNewTodo ] = useState([]);
 
     const innitValue = useRef(new Animated.Value(100)).current;
     const anim = () => {
@@ -15,34 +14,30 @@ export function TodoProvider(props){
         Animated.timing(innitValue, {
             toValue: 0,
             duration: 500,
-            // delay: 100,
             useNativeDriver : true
         }).start();
     }
 
-    
-
     useEffect(() => {
-        // if(todoList.length == 0) return;
         const formatTime = setInterval(()=>{
+            // console.log('before:',todoList);
             formatTodoList();
-        }, 2000)
+            // console.log('checking');
+        }, 60000)
         return () => {
             clearInterval(formatTime)
         }
     }, [todoList]);
-// đợi fix setToDolist mà k render lại
-    function formatTodoList(){
-        const newFormatList = [...newTodo];
-        newFormatList.forEach(todo => {
-            todo.formatMinutes = `${Math.floor((todo.time - getTimeCurrent())/60000)}`;
+
+    const formatTodoList = () => {
+        const newList = [...todoList];
+        newList.forEach(element => {
+            element.formatMinutes = `${Math.floor((element.time - getTimeCurrent())/60000).toString()}`;
         });
-        console.log(JSON.stringify(newFormatList), JSON.stringify(todoList))
-        if(JSON.stringify(todoList) != JSON.stringify(newFormatList)){
-        //     console.log('format: ', true);
-            setTodoList(newFormatList);
-        }
+        // console.log('format check: ', todoList, newList);
+        setTodoList(newList);
     }
+    
     useEffect(()=>{
         if(todoList.length == 0) return;
         const check = setInterval(() => {
@@ -50,43 +45,42 @@ export function TodoProvider(props){
             newFormatList.forEach((todo,index) => {
                 if(todo.time <= getTimeCurrent()){
                     removeTodo(todo,index);
+                    // console.log(todo.title);
                 }
             });
-            // console.log('checked');
         }, 2000);
         return () => {
             clearInterval(check);
         }
     }, [todoList])
-    // useEffect(() => {
-    //     const time = setInterval(() => {
-    //         getTodoEveryday();
-    //     }, 2000)
-    //     console.log('context gettodo');
-    //     return () => {
-    //         clearInterval(time);
-    //     }
-    // },[])
+    useEffect(() => {
+        getTodoEveryday();
+        const time = setInterval(() => {
+            getTodoEveryday();
+        }, 60000)
+        return () => {
+            clearInterval(time);
+        }
+    }, [])
 
-    // useEffect(() => {
-    //     retrieveToDo = async () => {
-    //         try {
-    //             const jsonValue = await AsyncStorage.getItem('todoList')
-    //             console.log('todolist json', JSON.parse(jsonValue));
-    //             if(jsonValue !== null){
-    //                 setTodoList(JSON.parse(jsonValue))
-    //             }
-    //         } catch(error) {
-    //             console.log(error);
-    //         }
-    //       };
-    //     retrieveToDo();
+    useEffect(() => {
+        const retrieveToDo = async () => {
+            try {
+                const jsonValue = await AsyncStorage.getItem('todoList')
+                console.log('todolist json', JSON.parse(jsonValue));
+                if(jsonValue !== null){
+                    setTodoList(JSON.parse(jsonValue))
+                }
+            } catch(error) {
+                console.log(error);
+            }
+          };
+        retrieveToDo();
         
-    //     return () => {
-    //         console.log('end app....');
-    //         setAsyncStorage(todoList);
-    //     }
-    // }, []);
+        return () => {
+            setAsyncStorage(todoList);
+        }
+    }, []);
 
     const getTodoEveryday = () => {
         const d = new Date();
@@ -105,11 +99,16 @@ export function TodoProvider(props){
             const date = timeDinner.getDate()+1;
             timeDinner.setDate(date);
         }
-        const getTimeBreakFast = Math.floor((timeBreakfast.getTime()-d.getTime())/60000);
-        const getTimeLunch = Math.floor((timeLunch.getTime()-d.getTime())/60000);
-        const getTimeDinner = Math.floor((timeDinner.getTime()-d.getTime())/60000);
-        // const newarray = [...todoEveryday];
-        // console.log(JSON.stringify(newarray))
+        const getTimeBreakFast = Math.ceil((timeBreakfast.getTime()-d.getTime())/60000);
+        const getTimeLunch = Math.ceil((timeLunch.getTime()-d.getTime())/60000);
+        const getTimeDinner = Math.ceil((timeDinner.getTime()-d.getTime())/60000);
+        if(getTimeBreakFast == 0 ){
+            Alert.alert('Breakfast');
+        } else if (getTimeLunch == 0){
+            Alert.alert('Lunch');
+        } else if (getTimeDinner == 0){
+            Alert.alert('Dinner');
+        }
         setTodoEveryday([getTimeBreakFast,getTimeLunch,getTimeDinner]);
     }
 
@@ -133,17 +132,19 @@ export function TodoProvider(props){
 
     function addTodo(objtodo){
         const newList = [...todoList];
-        const newObj = { ...objtodo, formatMinutes: Math.floor((objtodo.time - getTimeCurrent())/60000).toString() }
+        const newObj = { ...objtodo, formatMinutes: `${(Math.floor((objtodo.time - getTimeCurrent())/60000)).toString()}` }
         newList.push(newObj);
         setTodoList(newList);
-        setNewTodo(newList);
+        // setNewTodo(newList);
         setAsyncStorage(newList);
+        console.log(' call add ');
     }
 
     function removeTodo(todo, index){
         const newList = [...todoList];
         newList.splice(index,1);
         setTodoList(newList);
+        
         Alert.alert(todo.title);
         setAsyncStorage(newList);
     }
@@ -163,7 +164,7 @@ export function TodoProvider(props){
                 todoEveryday,
                 getTodoEveryday,
                 innitValue,
-                anim
+                anim,
             ]}
         >
             {props.children}

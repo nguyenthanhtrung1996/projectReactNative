@@ -7,7 +7,9 @@ import { TodoContext } from '../context/todo';
 function Homepage(props) {
     const { navigation, route } = props;
 
-    const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday, innitValue, anim ] = useContext(TodoContext);
+    const [ todoList, addTodo, getTimeCurrent, removeTodo, todoEveryday, getTodoEveryday, innitValue, anim, removeAsyncstorage ] = useContext(TodoContext);
+
+    // const [ newTodo, setNewTodo] = useState([]);
 
     
 
@@ -16,6 +18,8 @@ function Homepage(props) {
         addTodo(route.params);
     }, [route.params])
 
+
+    
 
     // useEffect(() => {
     //     const todo =[...todoList];
@@ -27,7 +31,7 @@ function Homepage(props) {
     console.log('Homepage render');
 
     return (
-        <HomepageScreen newTodo={todoList} todoEveryday={todoEveryday} removeTodo={removeTodo} anim={anim} innitValue={innitValue} navigation={navigation}/>
+        <HomepageScreen todoList={todoList} todoEveryday={todoEveryday} removeTodo={removeTodo} anim={anim} innitValue={innitValue} navigation={navigation}/>
     );
 }
 
