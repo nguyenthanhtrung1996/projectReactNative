@@ -17,13 +17,23 @@ export const stylesAddWorkScreen = StyleSheet.create({
         flex:6
     },
     time:{
-        flex: 1, 
-        paddingVertical: 20
+        flex: 1,
+        // flexDirection: co
+        // justifyContent: 'space-around'
+        // paddingVertical: 20
+    },
+    time__title:{
+        color: 'white', 
+        fontSize: 18, 
+        fontWeight: '500',
+        // justifyContent: 'center',
+        textAlignVertical: 'center',
+        flex: 1
     },
     title:{
         color: 'white', 
         fontSize: 18, 
-        fontWeight: '500'
+        fontWeight: '500',
     },
     time__content:{
         flex: 1, 
@@ -34,6 +44,11 @@ export const stylesAddWorkScreen = StyleSheet.create({
         flexDirection: 'column',
         alignItems:'center', 
         justifyContent:'center' 
+    },
+    time__box__total:{
+        flex: 3, 
+        flexDirection: 'row', 
+        alignItems:'flex-start'
     },
     time__text:{
         color: '#223369', 

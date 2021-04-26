@@ -23,19 +23,24 @@ export function TodoProvider(props){
             // console.log('before:',todoList);
             formatTodoList();
             // console.log('checking');
-        }, 60000)
+        }, 1000)
         return () => {
             clearInterval(formatTime)
         }
     }, [todoList]);
 
     const formatTodoList = () => {
-        const newList = [...todoList];
+        const newList = [];
+        todoList.forEach(todo => {
+            newList.push({...todo});
+        })
         newList.forEach(element => {
             element.formatMinutes = `${Math.floor((element.time - getTimeCurrent())/60000).toString()}`;
         });
-        // console.log('format check: ', todoList, newList);
-        setTodoList(newList);
+        console.log(JSON.stringify(newList) != JSON.stringify(todoList))
+        if(JSON.stringify(newList) != JSON.stringify(todoList)){
+            setTodoList(newList);
+        }
     }
     
     useEffect(()=>{

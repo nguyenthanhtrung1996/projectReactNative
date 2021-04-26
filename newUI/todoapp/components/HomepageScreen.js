@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Animated, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { stylesHomepageScreen } from './controller/style';
 
@@ -21,16 +21,16 @@ function HomepageScreen(props) {
                     <Text style={stylesHomepageScreen.title} >Most used timer</Text>
                     <View  style={stylesHomepageScreen.mostTimer__box__1}>
                             <Text style={stylesHomepageScreen.mostTimer__workName}>Breakfast</Text>
-                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{Math.floor(todoEveryday[0]/60)} hours {todoEveryday[0]%60} min</Text>
+                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{todoEveryday[0]} min</Text>
                     </View>
                     <View  style={stylesHomepageScreen.mostTimer__box__2}>
                         <View style={stylesHomepageScreen.mostTimer__box__2__left}>
                             <Text style={stylesHomepageScreen.mostTimer__workName}>Lunch</Text>
-                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{Math.floor(todoEveryday[1]/60)} hours {todoEveryday[1]%60} min</Text>
+                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{todoEveryday[1]} min</Text>
                         </View>
                         <View style={stylesHomepageScreen.mostTimer__box__2__right}>
                             <Text style={stylesHomepageScreen.mostTimer__workName}>Dinner</Text>
-                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{Math.floor(todoEveryday[2]/60)} hours {todoEveryday[2]%60} min</Text>
+                            <Text style={stylesHomepageScreen.mostTimer__timeBlack}>{todoEveryday[2]} min</Text>
                         </View>
                     </View>
                 </View>
@@ -56,7 +56,7 @@ function HomepageScreen(props) {
                                             <Text style={stylesHomepageScreen.otherTimer__workName}>{todo.title}</Text>
                                             <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
                                                 <Text style={stylesHomepageScreen.otherTimer__time}>
-                                                    {todo.formatMinutes}min
+                                                    {todo.formatMinutes} min
                                                 </Text>
                                                 <Icon 
                                                     style={active == index ? {textAlignVertical:'center'} : {display:'none'}} 
@@ -87,7 +87,7 @@ function HomepageScreen(props) {
                                                 <Text style={stylesHomepageScreen.otherTimer__workName}>{todo.title}</Text>
                                                 <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
                                                     <Text style={stylesHomepageScreen.otherTimer__time}>
-                                                        {todo.formatMinutes}min
+                                                        {todo.formatMinutes} min
                                                     </Text>
                                                     <Icon 
                                                         style={active == index ? {textAlignVertical:'center'} : {display:'none'}} 

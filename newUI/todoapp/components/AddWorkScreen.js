@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Text, TouchableOpacity, View, Image, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { stylesAddWorkScreen } from './controller/style';
@@ -89,77 +89,86 @@ function AddWorkScreen(props) {
                         />
                         )}
                     <View style={stylesAddWorkScreen.time}> 
-                        <Text style={stylesAddWorkScreen.title}>Select time</Text>
-                        <View style={{flexDirection: 'row'}}>
+                        <Text style={stylesAddWorkScreen.time__title}>Select time</Text>
+                        <View style={stylesAddWorkScreen.time__box__total}>
                                 {activeTime == '15' ?
                                     <View style={stylesAddWorkScreen.time__box}>
-                                        <Icon
-                                            name='circle-slice-2' 
-                                            size={96} 
-                                            color='#ff90a1'
+                                        <Image
+                                            style={{ width: 80, height: 80}}
+                                            source={require('../image/icon-time-1-active.png')}
                                         />
                                         <Text style={stylesAddWorkScreen.activeText}>15 min</Text>
                                     </View>
                                 :
-                                    <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue }] }]}>
-                                            <Icon 
-                                                name='circle-slice-2' 
-                                                size={96} 
-                                                color='#223369'
-                                                onPress={() => {
-                                                    setActiveTime('15');
-                                                    setTime(`${getTimeCurrent()+900000}`);
-                                                    console.log(time);
-                                                }}
+                                    <Animated.View 
+                                        style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue }] }]}
+                                    >
+                                        <TouchableHighlight 
+                                            onPress={() => {
+                                                setActiveTime('15');
+                                                setTime(`${getTimeCurrent()+900000}`);
+                                                console.log(time);
+                                            }}
+                                        >
+                                            <Image
+                                                style={{ width: 80, height: 80}}
+                                                source={require('../image/icon-time-1.png')}                                                
                                             />
-                                            <Text style={stylesAddWorkScreen.time__text}>15 min</Text>
+                                        </TouchableHighlight>
+                                        <Text style={stylesAddWorkScreen.time__text}>15 min</Text>
                                     </Animated.View> 
                                 }
                                 {activeTime == '30' ?
                                     <View style={stylesAddWorkScreen.time__box}>
-                                        <Icon
-                                            name='circle-slice-4' 
-                                            size={96} 
-                                            color='#ff90a1'
-                                        />
+                                        <TouchableHighlight >
+                                            <Image
+                                                style={{ width: 80, height: 80}}
+                                                source={require('../image/icon-time-2-active.png')}                                                
+                                            />
+                                        </TouchableHighlight>
                                         <Text style={stylesAddWorkScreen.activeText}>30 min</Text>
                                     </View>
                                 :
                                     <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue1 }] }]}>
-                                            <Icon 
-                                                name='circle-slice-4' 
-                                                size={96} 
-                                                color='#223369'
-                                                onPress={() => {
-                                                    setActiveTime('30');
-                                                    setTime(`${getTimeCurrent()+1800000}`);
-                                                    console.log(time);
-                                                }}
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setActiveTime('30');
+                                                setTime(`${getTimeCurrent()+1800000}`);
+                                                console.log(time);
+                                            }}  
+                                        >
+                                            <Image
+                                                style={{ width: 80, height: 80}}
+                                                source={require('../image/icon-time-2.png')}   
+                                                                                           
                                             />
-                                            <Text style={stylesAddWorkScreen.time__text}>30 min</Text>
+                                        </TouchableHighlight>
+                                        <Text style={stylesAddWorkScreen.time__text}>30 min</Text>
                                     </Animated.View> 
                                 }
                                 {activeTime == '60' ?
                                     <View style={stylesAddWorkScreen.time__box}>
-                                        <Icon
-                                            name='circle-slice-8' 
-                                            size={96} 
-                                            color='#ff90a1'
+                                        <Image
+                                            style={{ width: 80, height: 80}}
+                                            source={require('../image/icon-time-3-active.png')}                                     
                                         />
                                         <Text style={stylesAddWorkScreen.activeText}>60 min</Text>
                                     </View>
                                 :
                                     <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue2 }] }]}>
-                                            <Icon 
-                                                name='circle-slice-8' 
-                                                size={96} 
-                                                color='#223369'
+                                            <TouchableHighlight
                                                 onPress={() => {
                                                     setActiveTime('60');
                                                     setTime(`${getTimeCurrent()+3600000}`);
                                                     console.log(time);
-                                                }}
-                                            />
+                                                }}  
+                                            >
+                                                <Image
+                                                    style={{ width: 80, height: 80}}
+                                                    source={require('../image/icon-time-3.png')}   
+                                                                                            
+                                                />
+                                            </TouchableHighlight>
                                             <Text style={stylesAddWorkScreen.time__text}>60 min</Text>
                                     </Animated.View> 
                                 }
@@ -167,7 +176,8 @@ function AddWorkScreen(props) {
                                     <View style={stylesAddWorkScreen.time__box}>
                                         <Icon 
                                             name='cog-clockwise' 
-                                            size={96} color='#ff90a1'
+                                            style={{ width: 80, height: 80}}
+                                            size={80} color='#ff90a1'
                                             onPress={()=>{
                                                 setShow(true);
                                                 setActiveTime('orther')
@@ -179,7 +189,8 @@ function AddWorkScreen(props) {
                                     <Animated.View style={[stylesAddWorkScreen.time__box, { transform: [{ translateX: innitValue3 }] }]}>
                                             <Icon 
                                                 name='cog-clockwise' 
-                                                size={96} color='#223369'
+                                                style={{ width: 80, height: 80}}
+                                                size={80} color='#223369'
                                                 onPress={()=>{
                                                     setShow(true);
                                                     setActiveTime('orther')
