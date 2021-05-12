@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Text, TouchableOpacity, View, Image, TouchableHighlight } from 'react-native';
+import { Animated, Text, TouchableOpacity, View, Image, TouchableHighlight, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { stylesAddWorkScreen } from './controller/style';
@@ -20,6 +20,14 @@ function AddWorkScreen(props) {
         const d = new Date();
         return d.getTime();
     }
+
+    const checkValidate = (activeWork,time) => {
+        if(activeWork == '' || time == ''){
+            return false;
+        }
+        return true;
+    }
+
     useEffect(() => {
         Animated.timing(innitValue, {
             toValue: 0,
@@ -304,8 +312,12 @@ function AddWorkScreen(props) {
                 <TouchableOpacity
                     style={stylesAddWorkScreen.button}
                     onPress={() => {
-                        navigation.navigate('Home',{ title: activeWork, time });
-                        anim();
+                        if(checkValidate(activeWork,time)){
+                            navigation.navigate('Home',{ title: activeWork, time });
+                            anim();
+                        } else {
+                            Alert.alert('Error');
+                        }
                     }}
                 >
                     <Text style={stylesAddWorkScreen.buttonText}>Add to timer</Text>

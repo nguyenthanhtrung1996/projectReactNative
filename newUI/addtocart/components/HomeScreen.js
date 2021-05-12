@@ -49,7 +49,7 @@ function HomeScreen({ navigation }) {
                                 <TouchableHighlight
                                     style={{backgroundColor: '#6c757d',borderRadius: 5,paddingVertical: 5,}}
                                     onPress={() => {
-                                        addtocart(product);
+                                        addtocart(product.id);
                                     }}
                                 >
                                     <Text style={{color:'white', textAlign: 'center',}}>Add To Cart</Text>

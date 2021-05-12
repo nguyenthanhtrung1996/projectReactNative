@@ -51,7 +51,9 @@ function HomepageScreen(props) {
                                             ]}
                                             onStartShouldSetResponder={()=>{
                                                 setActive(index);
+                                                console.log('key: ', index+1);
                                             }}
+                                            key={index+1}
                                         >
                                             <Text style={stylesHomepageScreen.otherTimer__workName}>{todo.title}</Text>
                                             <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -82,7 +84,9 @@ function HomepageScreen(props) {
                                                 ]}
                                                 onStartShouldSetResponder={()=>{
                                                     setActive(index);
+                                                    console.log('key: ', index+1);
                                                 }}
+                                                key={index+1}
                                             >
                                                 <Text style={stylesHomepageScreen.otherTimer__workName}>{todo.title}</Text>
                                                 <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
